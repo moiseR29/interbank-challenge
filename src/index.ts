@@ -1,3 +1,5 @@
 import 'module-alias/register';
 
-console.log('HELLO IM TYPESCRIPT');
+import { expressRunner } from './server/express';
+
+expressRunner();
