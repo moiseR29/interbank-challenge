@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDirs": [
+      "./src"
+    ],
+    "baseUrl": "./",
+    "paths": {},
+    "target": "es2019",
+    "module": "commonjs",
+    "lib": [
+      "ES2019"
+    ],
+    "types": [
+      "node"
+    ],
+    "alwaysStrict": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "removeComments": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
+}

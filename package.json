@@ -1,0 +1,30 @@
+{
+  "name": "challenge-interbank",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "./node_modules/.bin/tsc -p tsconfig.build.json",
+    "start": "yarn clean && yarn build && node ./dist/index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^24.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-security": "^3.0.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
+  },
+  "@_moduleAliases": {}
+}
