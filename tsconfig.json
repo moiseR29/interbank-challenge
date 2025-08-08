@@ -15,6 +15,9 @@
       "@company/*": [
         "src/company/*"
       ],
+      "@transaction/*": [
+        "src/transaction/*"
+      ],
     },
     "target": "es2019",
     "module": "commonjs",

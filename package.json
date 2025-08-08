@@ -38,6 +38,7 @@
   "@_moduleAliases": {
     "shared": "dist/shared",
     "account": "dist/account",
-    "company": "dist/company"
+    "company": "dist/company",
+    "transaction": "dist/transaction"
   }
 }
