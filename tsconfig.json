@@ -9,6 +9,9 @@
       "@shared/*": [
         "src/shared/*"
       ],
+      "@account/*": [
+        "src/account/*"
+      ],
     },
     "target": "es2019",
     "module": "commonjs",

@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import type { Config } from 'jest';
 import { pathsToModuleNameMapper } from 'ts-jest';
 
-const { compilerOptions } = require('./tsconfig.json');
-const { baseUrl, paths } = compilerOptions;
+const paths = {
+  '@shared/*': ['src/shared/*'],
+  '@account/*': ['src/account/*'],
+};
 
 const jestConfig: Config = {
   preset: 'ts-jest',
@@ -18,7 +19,7 @@ const jestConfig: Config = {
     '^.+\\.(ts)$': 'ts-jest',
   },
   forceExit: true,
-  modulePaths: [baseUrl],
+  modulePaths: ['./'],
   moduleNameMapper: pathsToModuleNameMapper(paths),
   modulePathIgnorePatterns: ['<rootDir>/config/'],
   verbose: true,

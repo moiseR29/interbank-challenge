@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "./node_modules/.bin/tsc -p tsconfig.build.json",
-    "start": "yarn clean && yarn build && node ./dist/index"
+    "start": "yarn clean && yarn build && node ./dist/index",
+    "test": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
@@ -31,9 +32,11 @@
     "jest": "^30.0.5",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
   "@_moduleAliases": {
-    "shared": "dist/shared"
+    "shared": "dist/shared",
+    "account": "dist/account"
   }
 }
