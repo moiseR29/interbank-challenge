@@ -5,14 +5,19 @@
       "./src"
     ],
     "baseUrl": "./",
-    "paths": {},
+    "paths": {
+      "@shared/*": [
+        "src/shared/*"
+      ],
+    },
     "target": "es2019",
     "module": "commonjs",
     "lib": [
       "ES2019"
     ],
     "types": [
-      "node"
+      "node",
+      "jest"
     ],
     "alwaysStrict": true,
     "strict": true,
