@@ -37,6 +37,7 @@
   },
   "@_moduleAliases": {
     "shared": "dist/shared",
-    "account": "dist/account"
+    "account": "dist/account",
+    "company": "dist/company"
   }
 }

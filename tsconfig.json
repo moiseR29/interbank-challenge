@@ -12,6 +12,9 @@
       "@account/*": [
         "src/account/*"
       ],
+      "@company/*": [
+        "src/company/*"
+      ],
     },
     "target": "es2019",
     "module": "commonjs",
