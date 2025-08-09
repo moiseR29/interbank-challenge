@@ -9,7 +9,7 @@ import {
   Name,
   Type,
 } from '@company/core';
-import { MemoryDB } from '@infra/server/express/MemoryDB';
+import { MemoryDB } from '@infra/db/memory';
 import { Logger } from '@shared/core';
 import moment from 'moment-timezone';
 
@@ -51,6 +51,14 @@ export class CompanyMemoryRepository implements CompanyRepository {
       account: company.account.accountNumber.value,
     });
     return company;
+  }
+
+  async verifyExistsCompanyByCuit(cuit: CUIT): Promise<boolean> {
+    const v = Array.from(this.db.company.values());
+
+    const company = v.filter((v) => v.cuit === cuit.value);
+
+    return !!company.length;
   }
 
   async getCompaniesBetweenDates(

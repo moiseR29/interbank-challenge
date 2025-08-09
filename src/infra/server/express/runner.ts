@@ -1,5 +1,5 @@
 import { ExpressServer } from './Express';
-import { MemoryDB } from './MemoryDB';
+import { MemoryDB } from '../../db/memory';
 import { ExpressRouter } from './Router';
 
 export const expressRunner = () => {

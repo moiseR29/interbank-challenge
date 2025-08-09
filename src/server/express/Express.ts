@@ -9,19 +9,6 @@ import express, {
   Router,
 } from 'express';
 
-const handlerError = (
-  error: any,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  console.log('ACA NO LLEGA');
-  console.error(error.stack);
-  const err = MainError.check(error).getError();
-  console.log(err);
-  return res.status(err.statusCode).send(err);
-};
-
 export class ExpressServer {
   private app: Application;
 
@@ -35,7 +22,6 @@ export class ExpressServer {
     this.app.use(urlencoded({ extended: true }));
 
     this.app.use(router);
-    this.app.use(handlerError);
   }
 
   get server(): Application {

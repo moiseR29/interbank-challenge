@@ -4,7 +4,7 @@ import { CreateCompany, CreateCompanyDependencies } from '@company/app';
 import { AccountMemoryRepository } from '@account/infra';
 
 import { WinstonLogger } from '@infra/libraries/winston';
-import { MemoryDB } from '@infra/server/express/MemoryDB';
+import { MemoryDB } from '@infra/db/memory';
 import { CompanyMemoryRepository } from '../CompanyMemoryRepository';
 import { CompanyError, CUIT, Name, Type } from '@company/core';
 
@@ -25,8 +25,8 @@ export const CreateCompanyExpressEndpoint = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const logger = new WinstonLogger('-> Create Company');
   try {
-    const logger = new WinstonLogger('-> Create Company');
     const db = MemoryDB.getInstance();
     const deps: CreateCompanyDependencies = {
       logger,
@@ -47,12 +47,21 @@ export const CreateCompanyExpressEndpoint = async (
       type: new Type(body.type),
     });
 
+    console.log('ACCOUNTS');
+    console.log(Array.from(db.account));
+    console.log('=====================================');
+    console.log('=====================================');
+    console.log('COMPANIES');
+    console.log(Array.from(db.company));
+
     return res.status(201).send({
       id: caseResponse.id.value,
       account: caseResponse.account.accountNumber.value,
       createdAt: caseResponse.createdAt.value.format(),
     });
   } catch (error) {
-    return next(error);
+    const err = CompanyError.check(error).getError();
+    logger.error(err.message);
+    return res.status(err.statusCode).send(err);
   }
 };

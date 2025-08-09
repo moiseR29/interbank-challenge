@@ -55,8 +55,6 @@ export class AccountNumber extends StringValue {
   static new(
     currency: ALLOWED_CURRENCIES = ALLOWED_CURRENCIES.USD,
   ): AccountNumber {
-    return new AccountNumber(
-      `${currency}-${Generator.numbersLength(5)}/${Generator.numbersLength(2)}`,
-    );
+    return new AccountNumber(Generator.accountNumber(currency));
   }
 }

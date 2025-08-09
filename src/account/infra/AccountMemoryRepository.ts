@@ -8,7 +8,7 @@ import {
   CreatedAt,
 } from '@account/core';
 import { Logger } from '@shared/core';
-import { MemoryDB } from '@infra/server/express/MemoryDB';
+import { MemoryDB } from '@infra/db/memory';
 
 export interface AccountMemoryRepositoryDependencies {
   logger: Logger;

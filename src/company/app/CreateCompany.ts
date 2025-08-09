@@ -1,5 +1,6 @@
 import {
   Company,
+  CompanyError,
   CompanyRepository,
   CreatedAt,
   CUIT,
@@ -35,16 +36,23 @@ export class CreateCompany extends App {
   async execute(payload: CreateCompanyPayload): Promise<Company> {
     try {
       this.logger.info('Executing CreateCompanyApp..');
+      this.logger.info('Verify exist cuit');
+      const cuitIsExists = await this.repository.verifyExistsCompanyByCuit(
+        payload.cuit,
+      );
+
+      if (cuitIsExists)
+        throw new CompanyError('Company cuit already exists on database');
 
       const companyID = ID.new();
       this.logger.log('Generating new Company.');
       const company = new Company({ id: companyID });
 
-      this.logger.log('Setting CreatedAt.');
-      company.setCreatedAt(CreatedAt.new());
-
       this.logger.log('Setting CUIT.');
       company.setCUIT(payload.cuit);
+
+      this.logger.log('Setting CreatedAt.');
+      company.setCreatedAt(CreatedAt.new());
 
       this.logger.log('Setting Name.');
       company.setName(payload.name);
