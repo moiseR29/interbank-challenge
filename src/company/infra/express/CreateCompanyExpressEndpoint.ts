@@ -47,13 +47,6 @@ export const CreateCompanyExpressEndpoint = async (
       type: new Type(body.type),
     });
 
-    console.log('ACCOUNTS');
-    console.log(Array.from(db.account));
-    console.log('=====================================');
-    console.log('=====================================');
-    console.log('COMPANIES');
-    console.log(Array.from(db.company));
-
     return res.status(201).send({
       id: caseResponse.id.value,
       account: caseResponse.account.accountNumber.value,
