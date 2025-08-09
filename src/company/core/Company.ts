@@ -28,7 +28,7 @@ export class Company {
   private _account: Account;
 
   constructor({ id, cuit, name, type, createdAt }: ICompany) {
-    if (!id) throw new CompanyError('Company Id should be exist');
+    if (!id) throw CompanyError.alreadyDefined('Id');
     this._id = id;
     this._createdAt = createdAt!;
     this._cuit = cuit!;
@@ -38,32 +38,31 @@ export class Company {
 
   /** Setters */
   setCreatedAt(createdAt: CreatedAt): Company {
-    if (this._createdAt)
-      throw new CompanyError('Company CreatedAt Already defined');
+    if (this._createdAt) throw CompanyError.alreadyDefined('CreatedAt');
     this._createdAt = createdAt;
     return this;
   }
 
   setCUIT(cuit: CUIT): Company {
-    if (this._cuit) throw new CompanyError('Company CUIT Already defined');
+    if (this._cuit) throw CompanyError.alreadyDefined('CUIT');
     this._cuit = cuit;
     return this;
   }
 
   setName(name: Name): Company {
-    if (this._name) throw new CompanyError('Company Name Already defined');
+    if (this._name) throw CompanyError.alreadyDefined('Company Name');
     this._name = name;
     return this;
   }
 
   setType(type: Type): Company {
-    if (this._type) throw new CompanyError('Company Type Already defined');
+    if (this._type) throw CompanyError.alreadyDefined('Type');
     this._type = type;
     return this;
   }
 
   setAccount(account: Account): Company {
-    if (this._account) throw new CompanyError('Account Already defined');
+    if (this._account) throw CompanyError.alreadyDefined('Account');
     this._account = account;
     return this;
   }
@@ -87,6 +86,10 @@ export class Company {
 
   get type(): Type {
     return this._type;
+  }
+
+  get account(): Account {
+    return this._account;
   }
 
   getRaw(): CompanyRaw {

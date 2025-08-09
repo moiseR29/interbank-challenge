@@ -40,19 +40,16 @@ export class ExecuteTransaction extends App {
       const debitAccountNumber = new AccountNumber(from);
       const creditAccountNumber = new AccountNumber(to);
 
-      const debitAccount = await this.accountRepository.getByAccountNumber(
-        debitAccountNumber,
-      );
+      const debitAccount =
+        await this.accountRepository.getByAccountNumber(debitAccountNumber);
 
-      if (!debitAccount)
-        throw new TransactionError('DebitAccount doesnt exist');
+      if (!debitAccount) throw TransactionError.accountNotFound('DebitAccount');
 
-      const creditAccount = await this.accountRepository.getByAccountNumber(
-        creditAccountNumber,
-      );
+      const creditAccount =
+        await this.accountRepository.getByAccountNumber(creditAccountNumber);
 
       if (!creditAccount)
-        throw new TransactionError('CreditAccount doesnt exist');
+        throw TransactionError.accountNotFound('CreditAccount');
 
       debitAccount.amount.movement(-Number(amount));
       creditAccount.amount.movement(Number(amount));

@@ -16,16 +16,16 @@ export class AccountNumber extends StringValue {
   private isValid() {
     const validCharacter = this._value.replace(/[^a-zA-Z0-9-/]+/g, '');
     if (validCharacter.length != 12)
-      throw new InvalidAccountNumber(
+      throw new AccountError(
         'Invalid Account Number. must contains 12 characters',
       );
 
     if (
-      ![ALLOWED_CURRENCIES.USD, ALLOWED_CURRENCIES.ARS].includes(
+      ![ALLOWED_CURRENCIES.USD].includes(
         this._value.slice(0, 3) as ALLOWED_CURRENCIES,
       )
     ) {
-      throw new InvalidAccountNumber(
+      throw new AccountError(
         `Invalid Account Number. ${this._value.slice(
           0,
           3,
@@ -35,21 +35,19 @@ export class AccountNumber extends StringValue {
 
     const validateNumber = this._value.replace(/[^0-9]+/g, '');
     if (validateNumber.length != 7)
-      throw new InvalidAccountNumber(
-        'Invalid Account Number. must contains 7 number',
-      );
+      throw new AccountError('Invalid Account Number. must contains 7 number');
 
     // TODO: valid if has one "-"
     const checkHas_1 = this._value.match(/[-]+/g) || [];
     if (checkHas_1.length != 1)
-      throw new InvalidAccountNumber(
+      throw new AccountError(
         'Invalid Account Number. should be include a only -',
       );
 
     // TODO: valid if has one "/"
     const checkHas_2 = this._value.match(/[/]+/g) || [];
     if (checkHas_2.length != 1)
-      throw new InvalidAccountNumber(
+      throw new AccountError(
         'Invalid Account Number. should be include a only /',
       );
   }
@@ -60,11 +58,5 @@ export class AccountNumber extends StringValue {
     return new AccountNumber(
       `${currency}-${Generator.numbersLength(5)}/${Generator.numbersLength(2)}`,
     );
-  }
-}
-
-class InvalidAccountNumber extends AccountError {
-  constructor(message: string) {
-    super(message, 'Account Number Error');
   }
 }

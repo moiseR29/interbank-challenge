@@ -8,14 +8,8 @@ export class Amount extends NumberValue {
   movement(mv: number) {
     const newAmount = this._value + mv;
     if (newAmount < this.LIMIT)
-      throw new AmountError('the account does not have sufficient funds');
+      throw new AccountError('the account does not have sufficient funds');
 
     this._value = newAmount;
-  }
-}
-
-class AmountError extends AccountError {
-  constructor(message: string) {
-    super(message, 'amount account error');
   }
 }

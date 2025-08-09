@@ -9,15 +9,7 @@ export class Name extends StringValue {
 
   private isValid() {
     if (this._value.length < 5 || this._value.length >= 20) {
-      throw new InvalidName(
-        'Invalid Name. Should contains between 5 to 20 characters',
-      );
+      throw CompanyError.invalidNameLength();
     }
-  }
-}
-
-class InvalidName extends CompanyError {
-  constructor(message: string) {
-    super(message, 'Company Name Error');
   }
 }

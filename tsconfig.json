@@ -18,6 +18,9 @@
       "@transaction/*": [
         "src/transaction/*"
       ],
+      "@infra/*": [
+        "src/infra/*"
+      ],
     },
     "target": "es2019",
     "module": "commonjs",

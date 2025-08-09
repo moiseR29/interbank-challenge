@@ -17,7 +17,8 @@
     "lodash": "^4.17.21",
     "module-alias": "^2.2.3",
     "moment-timezone": "^0.6.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
@@ -37,10 +38,11 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
-  "@_moduleAliases": {
-    "shared": "dist/shared",
-    "account": "dist/account",
-    "company": "dist/company",
-    "transaction": "dist/transaction"
+  "_moduleAliases": {
+    "@shared": "dist/shared",
+    "@account": "dist/account",
+    "@company": "dist/company",
+    "@transaction": "dist/transaction",
+    "@infra": "dist/infra"
   }
 }

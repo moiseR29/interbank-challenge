@@ -9,25 +9,17 @@ export class CUIT extends StringValue {
 
   private isValid() {
     if (this._value.length != 13) {
-      throw new InvalidCuit('Invalid CUIT. Should contains 13 characters');
+      throw CompanyError.invalidCuitCharacters();
     }
 
     const specialCharacters = this._value.replace(/[^a-zA-Z0-9-]/g, '');
     if (specialCharacters.length != 13) {
-      throw new InvalidCuit(
-        'Invalid CUIT. Should not contain special characters ( allow numbers and - )',
-      );
+      throw CompanyError.invalidCuitSpecialCharacters();
     }
 
     const cuitWithOnlyNumbers = this._value.replace(/[^0-9]/g, '');
     if (cuitWithOnlyNumbers.length != 11) {
-      throw new InvalidCuit('Invalid CUIT. Must includes 11 numbers');
+      throw CompanyError.invalidCuitShouldBeIncludesNumbers();
     }
-  }
-}
-
-class InvalidCuit extends CompanyError {
-  constructor(message: string) {
-    super(message, 'Company Cuit Error');
   }
 }

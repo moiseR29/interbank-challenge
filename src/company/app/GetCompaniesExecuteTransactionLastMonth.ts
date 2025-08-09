@@ -54,7 +54,7 @@ export class GetCompaniesExecuteTransactionLastMonth extends App {
               new AccountNumber(tx.debit.value),
             );
           if (!company)
-            throw new CompanyError(`${tx.debit.value} doesnt has company`);
+            throw CompanyError.accountDoesnotHaveCompany(tx.debit.value);
 
           mapper.set(tx.debit.value, { company, transactions: [] });
         }

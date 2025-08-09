@@ -22,13 +22,7 @@ export class Type extends StringValue {
         this._value as COMPANY_TYPES,
       )
     ) {
-      throw new InvalidType('Invalid type, only allowed Pyme and Corporative');
+      throw CompanyError.typeNowAllowed();
     }
-  }
-}
-
-class InvalidType extends CompanyError {
-  constructor(message: string) {
-    super(message, 'Company Type Error');
   }
 }

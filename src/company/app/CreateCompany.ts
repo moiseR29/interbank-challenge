@@ -1,6 +1,5 @@
 import {
   Company,
-  CompanyRaw,
   CompanyRepository,
   CreatedAt,
   CUIT,
@@ -17,7 +16,11 @@ export interface CreateCompanyDependencies
   companyRepository: CompanyRepository;
 }
 
-export interface CreateCompanyPayload extends CompanyRaw {}
+export interface CreateCompanyPayload {
+  cuit: CUIT;
+  name: Name;
+  type: Type;
+}
 
 export class CreateCompany extends App {
   private repository: CompanyRepository;
@@ -32,7 +35,6 @@ export class CreateCompany extends App {
   async execute(payload: CreateCompanyPayload): Promise<Company> {
     try {
       this.logger.info('Executing CreateCompanyApp..');
-      const { cuit, name, type } = payload;
 
       const companyID = ID.new();
       this.logger.log('Generating new Company.');
@@ -42,13 +44,13 @@ export class CreateCompany extends App {
       company.setCreatedAt(CreatedAt.new());
 
       this.logger.log('Setting CUIT.');
-      company.setCUIT(new CUIT(cuit!));
+      company.setCUIT(payload.cuit);
 
       this.logger.log('Setting Name.');
-      company.setName(new Name(name!));
+      company.setName(payload.name);
 
       this.logger.log('Setting Type.');
-      company.setType(type ? new Type(type) : Type.default());
+      company.setType(payload.type);
 
       this.logger.log('Creating and Setting Account.');
       const account = await this.createAccountApp.execute();

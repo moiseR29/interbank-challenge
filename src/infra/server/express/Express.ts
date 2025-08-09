@@ -1,4 +1,3 @@
-import { MainError } from '@shared/core';
 import express, {
   json,
   urlencoded,
@@ -15,11 +14,8 @@ const handlerError = (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log('ACA NO LLEGA');
   console.error(error.stack);
-  const err = MainError.check(error).getError();
-  console.log(err);
-  return res.status(err.statusCode).send(err);
+  return res.status(500).send({ message: error.message });
 };
 
 export class ExpressServer {

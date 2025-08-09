@@ -1,5 +1,5 @@
 import 'module-alias/register';
 
-import { expressRunner } from './server/express';
+import { expressRunner } from '@infra/server/express';
 
 expressRunner();

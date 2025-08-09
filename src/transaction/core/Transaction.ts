@@ -45,36 +45,31 @@ export class Transaction {
 
   /** Setters */
   setDebit(debit: DebitAccount): Transaction {
-    if (this._debit)
-      throw new TransactionError('Transaction debit account Already defined');
+    if (this._debit) throw TransactionError.alreadyRefined('debit account');
     this._debit = debit;
     return this;
   }
 
   setCredit(credit: CreditAccount): Transaction {
-    if (this._credit)
-      throw new TransactionError('Transaction credit account Already defined');
+    if (this._credit) throw TransactionError.alreadyRefined('credit account');
     this._credit = credit;
     return this;
   }
 
   setAmount(amount: Amount): Transaction {
-    if (this._amount)
-      throw new TransactionError('Transaction amount Already defined');
+    if (this._amount) throw TransactionError.alreadyRefined('amount');
     this._amount = amount;
     return this;
   }
 
   setExecutedAt(executedAt: ExecutedAt): Transaction {
-    if (this._executedAt)
-      throw new TransactionError('Transaction executedAt Already defined');
+    if (this._executedAt) throw TransactionError.alreadyRefined('executedAt');
     this._executedAt = executedAt;
     return this;
   }
 
   setState(state: State): Transaction {
-    if (this._state)
-      throw new TransactionError('Transaction state Already defined');
+    if (this._state) throw TransactionError.alreadyRefined('state');
     this._state = state;
     return this;
   }
