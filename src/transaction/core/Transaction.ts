@@ -1,12 +1,5 @@
 import { TransactionError } from './Error';
-import {
-  ID,
-  DebitAccount,
-  CreditAccount,
-  Amount,
-  ExecutedAt,
-  State,
-} from './params';
+import { ID, DebitAccount, CreditAccount, Amount, ExecutedAt } from './params';
 
 export interface TransactionRaw {
   id?: string;
@@ -14,7 +7,6 @@ export interface TransactionRaw {
   credit?: string;
   amount?: number;
   executedAt?: string | Date;
-  state?: string;
 }
 
 export interface ITransaction {
@@ -23,7 +15,6 @@ export interface ITransaction {
   credit?: CreditAccount;
   amount?: Amount;
   executedAt?: ExecutedAt;
-  state?: State;
 }
 
 export class Transaction {
@@ -32,15 +23,13 @@ export class Transaction {
   private _credit: CreditAccount;
   private _amount: Amount;
   private _executedAt: ExecutedAt;
-  private _state: State;
 
-  constructor({ id, debit, credit, amount, executedAt, state }: ITransaction) {
+  constructor({ id, debit, credit, amount, executedAt }: ITransaction) {
     this._id = id!;
     this._debit = debit!;
     this._credit = credit!;
     this._amount = amount!;
     this._executedAt = executedAt!;
-    this._state = state!;
   }
 
   /** Setters */
@@ -68,12 +57,6 @@ export class Transaction {
     return this;
   }
 
-  setState(state: State): Transaction {
-    if (this._state) throw TransactionError.alreadyRefined('state');
-    this._state = state;
-    return this;
-  }
-
   /** Getters */
   get id(): ID {
     return this._id;
@@ -95,10 +78,6 @@ export class Transaction {
     return this._executedAt;
   }
 
-  get state(): State {
-    return this._state;
-  }
-
   getRaw(): TransactionRaw {
     return {
       id: this.id.value,
@@ -106,7 +85,6 @@ export class Transaction {
       credit: this.credit.value,
       amount: this.amount.value,
       executedAt: this.executedAt.value.format(),
-      state: this.state.value,
     };
   }
 }

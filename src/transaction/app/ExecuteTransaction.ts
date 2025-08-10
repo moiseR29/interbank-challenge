@@ -4,12 +4,10 @@ import {
   TransactionError,
   Transaction,
   ID,
-  State,
   ExecutedAt,
   Amount,
   DebitAccount,
   CreditAccount,
-  TRANSACTION_STATE,
   TransactionRepository,
 } from '@transaction/core';
 
@@ -59,8 +57,7 @@ export class ExecuteTransaction extends App {
 
       const tx = new Transaction({ id: ID.new() });
 
-      tx.setState(new State(TRANSACTION_STATE.SUCCESS))
-        .setExecutedAt(ExecutedAt.new())
+      tx.setExecutedAt(ExecutedAt.new())
         .setDebit(new DebitAccount(debitAccount.accountNumber.value))
         .setAmount(new Amount(amount))
         .setCredit(new CreditAccount(creditAccount.accountNumber.value));

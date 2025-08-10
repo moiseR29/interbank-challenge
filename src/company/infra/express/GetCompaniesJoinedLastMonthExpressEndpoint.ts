@@ -12,6 +12,7 @@ export interface GetCompaniesJoinedLastMonthExpressEndpointResponse {
   cuit: string;
   createdAt: string;
   type: string;
+  name: string;
 }
 
 export const GetCompaniesJoinedLastMonthExpressEndpoint = async (
@@ -36,6 +37,7 @@ export const GetCompaniesJoinedLastMonthExpressEndpoint = async (
       cuit: c.cuit.value,
       createdAt: c.createdAt.value.format(),
       type: c.type.value,
+      name: c.name.value,
     }));
 
     return res.status(200).send(companiesResponse);
