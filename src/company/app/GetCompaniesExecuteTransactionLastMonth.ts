@@ -28,7 +28,9 @@ export class GetCompaniesExecuteTransactionLastMonth extends App {
   async execute(): Promise<
     Array<GetCompaniesExecuteTransactionLastMonthResponse>
   > {
+    this.logger.info('Executing Get campaing execute transaction last month..');
     try {
+      this.logger.info('calculating dates');
       const currentDayLastMonth = moment().utc().subtract(1, 'M');
       const firstDayLastMonth = currentDayLastMonth
         .startOf('month')
@@ -37,11 +39,13 @@ export class GetCompaniesExecuteTransactionLastMonth extends App {
         .endOf('month')
         .format('YYYY-MM-DD');
 
+      this.logger.info('searching transaction between days in the repository');
       const transactions = await this.transactionRepository.getBetweenDates(
         firstDayLastMonth,
         lastDayLastMonth,
       );
 
+      this.logger.info('mapping results');
       const mapper = new Map<
         string,
         GetCompaniesExecuteTransactionLastMonthResponse

@@ -16,7 +16,9 @@ export class GetCompaniesJoinedLastMonth extends App {
   }
 
   async execute(): Promise<Array<Company>> {
+    this.logger.info('Executing ... GetCampaingJoinedLastMonth');
     try {
+      this.logger.info('calculating dates');
       const currentDayLastMonth = moment().utc().subtract(1, 'M');
       const firstDayLastMonth = currentDayLastMonth
         .startOf('month')
@@ -25,6 +27,7 @@ export class GetCompaniesJoinedLastMonth extends App {
         .endOf('month')
         .format('YYYY-MM-DD');
 
+      this.logger.info('searching companies');
       const companies = await this.repository.getCompaniesBetweenDates(
         firstDayLastMonth,
         lastDayLastMonth,
