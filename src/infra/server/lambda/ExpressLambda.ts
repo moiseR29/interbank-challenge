@@ -4,11 +4,14 @@ import { ExpressServer } from '../express/Express';
 import { ExpressRouter } from '../express/Router';
 import { MemoryDB } from '@infra/db/memory';
 
+// configure DB
+MemoryDB.getInstance();
+
 const server = () => {
   const server = ExpressServer.new(ExpressRouter.new()).server;
 
-  // configure DB
-  MemoryDB.getInstance();
+  /*   // configure DB
+  MemoryDB.getInstance(); */
 
   return server;
 };

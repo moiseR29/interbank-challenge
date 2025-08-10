@@ -1,7 +1,7 @@
 import { Router as ExRouter, Request, Response, NextFunction } from 'express';
 import { companyRouter } from '@company/infra/express';
 import { transactionRouter } from '@transaction/infra/express';
-import { authMiddleware } from './middlewares';
+import { authMiddleware, lambdaConversion } from './middlewares';
 
 const handlerRouteNotFounded = (
   req: Request,
@@ -36,6 +36,7 @@ export class ExpressRouter {
 
   private applyEndpoint(): void {
     this._router.use(authMiddleware);
+    this._router.use(lambdaConversion);
     this._router.use([companyRouter, transactionRouter]);
   }
 
