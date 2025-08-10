@@ -7,20 +7,25 @@
     "clean": "rm -rf dist",
     "build": "./node_modules/.bin/tsc -p tsconfig.build.json",
     "start": "yarn clean && yarn build && node ./dist/index",
+    "lambda": "yarn clean && yarn build && ./node_modules/.bin/serverless offline --stage dev",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "^4.1.0",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.3",
     "moment-timezone": "^0.6.0",
+    "serverless-http": "^3.2.0",
     "uuid": "^11.1.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@types/config": "^3.3.5",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.20",
@@ -34,6 +39,8 @@
     "eslint-plugin-security": "^3.0.1",
     "jest": "^30.0.5",
     "prettier": "^3.6.2",
+    "serverless": "^3.36.0",
+    "serverless-offline": "^13.3.0",
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"

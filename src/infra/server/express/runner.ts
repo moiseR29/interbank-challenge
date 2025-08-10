@@ -1,9 +1,10 @@
 import { ExpressServer } from './Express';
 import { MemoryDB } from '../../db/memory';
 import { ExpressRouter } from './Router';
+import { ConfigManager } from '@infra/libraries/config';
 
 export const expressRunner = () => {
-  const port = 4000;
+  const port = ConfigManager.server().port;
   const server = ExpressServer.new(ExpressRouter.new()).server;
 
   // configure DB
