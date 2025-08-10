@@ -42,8 +42,6 @@ export const GetCompaniesJoinedLastMonthExpressEndpoint = async (
 
     return res.status(200).send(companiesResponse);
   } catch (error) {
-    const err = CompanyError.check(error).getError();
-    logger.error(err.message);
-    return res.status(err.statusCode).send(err);
+    next(error);
   }
 };

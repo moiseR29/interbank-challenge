@@ -1,3 +1,4 @@
+import { MainError } from '@shared/core';
 import express, {
   json,
   urlencoded,
@@ -14,8 +15,9 @@ const handlerError = (
   res: Response,
   next: NextFunction,
 ) => {
-  console.error(error.stack);
-  return res.status(500).send({ message: error.message });
+  console.error(error);
+  const err = MainError.check(error).getError();
+  return res.status(err.statusCode).send(err);
 };
 
 export class ExpressServer {

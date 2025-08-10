@@ -53,8 +53,6 @@ export const CreateCompanyExpressEndpoint = async (
       createdAt: caseResponse.createdAt.value.format(),
     });
   } catch (error) {
-    const err = CompanyError.check(error).getError();
-    logger.error(err.message);
-    return res.status(err.statusCode).send(err);
+    next(error);
   }
 };

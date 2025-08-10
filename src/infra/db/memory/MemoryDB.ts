@@ -200,7 +200,7 @@ export class MemoryDB {
         executedAt: '2025-07-30T20:20:57Z',
       },
     ];
-    console.log(`${this.transactionDb.length + 1} accounts were charged`);
+    console.log(`${this.transactionDb.length + 1} transactions were charged`);
   }
 
   static getInstance(): MemoryDB {

@@ -1,5 +1,6 @@
 import { Router as ExRouter, Request, Response, NextFunction } from 'express';
 import { companyRouter } from '@company/infra/express';
+import { transactionRouter } from '@transaction/infra/express';
 
 const handlerRouteNotFounded = (
   req: Request,
@@ -33,7 +34,7 @@ export class ExpressRouter {
   }
 
   private applyEndpoint(): void {
-    this._router.use(companyRouter);
+    this._router.use([companyRouter, transactionRouter]);
   }
 
   private notExistsEndpoint(): void {
