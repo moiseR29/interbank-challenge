@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { CompanyError } from '@company/core';
 import { WinstonLogger } from '@infra/libraries/winston';
 import {
-  GetCompaniesJoinedLastMonth,
-  GetCompaniesJoinedLastMonthDependencies,
+  GetCompaniesJoinedLastMonthApplication,
+  GetCompaniesJoinedLastMonthApplicationDependencies,
 } from '@company/app';
 import { MemoryDB } from '@infra/db/memory';
 import { CompanyMemoryRepository } from '../CompanyMemoryRepository';
@@ -24,12 +23,12 @@ export const GetCompaniesJoinedLastMonthExpressEndpoint = async (
 
   try {
     const db = MemoryDB.getInstance();
-    const deps: GetCompaniesJoinedLastMonthDependencies = {
+    const deps: GetCompaniesJoinedLastMonthApplicationDependencies = {
       logger,
       companyRepository: new CompanyMemoryRepository({ logger, data: db }),
     };
 
-    const uCase = new GetCompaniesJoinedLastMonth(deps);
+    const uCase = new GetCompaniesJoinedLastMonthApplication(deps);
 
     const companies = await uCase.execute();
 

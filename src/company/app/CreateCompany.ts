@@ -1,71 +1,39 @@
+import { Company, CUIT, Name, Type } from '@company/core';
 import {
-  Company,
-  CompanyError,
-  CompanyRepository,
-  CreatedAt,
-  CUIT,
-  ID,
-  Name,
-  Type,
-} from '@company/core';
-import { App, AppDependencies } from '@shared/app';
-import { CreateAccount, CreateAccountDependencies } from '@account/app';
+  CreateCompanyAction,
+  CreateCompanyActionDependencies,
+} from '@company/core/actions';
+import {
+  CreateAccountAction,
+  CreateAccountDependencies,
+} from '@account/core/actions';
 
-export interface CreateCompanyDependencies
-  extends CreateAccountDependencies,
-    AppDependencies {
-  companyRepository: CompanyRepository;
-}
+export interface CreateCompanyApplicationDependencies
+  extends CreateCompanyActionDependencies,
+    CreateAccountDependencies {}
 
-export interface CreateCompanyPayload {
+export interface CreateCompanyApplicationPayload {
   cuit: CUIT;
   name: Name;
   type: Type;
 }
 
-export class CreateCompany extends App {
-  private repository: CompanyRepository;
-  private createAccountApp: CreateAccount;
+export class CreateCompanyApplication {
+  private createCompanyAction: CreateCompanyAction;
+  private createAccountAction: CreateAccountAction;
 
-  constructor(dep: CreateCompanyDependencies) {
-    super(dep);
-    this.repository = dep.companyRepository;
-    this.createAccountApp = new CreateAccount(dep);
+  constructor(dep: CreateCompanyApplicationDependencies) {
+    this.createCompanyAction = new CreateCompanyAction(dep);
+    this.createAccountAction = new CreateAccountAction(dep);
   }
 
-  async execute(payload: CreateCompanyPayload): Promise<Company> {
+  async execute(payload: CreateCompanyApplicationPayload): Promise<Company> {
     try {
-      this.logger.info('Executing CreateCompanyApp..');
-      this.logger.info('Verify exist cuit');
-      const cuitIsExists = await this.repository.verifyExistsCompanyByCuit(
-        payload.cuit,
-      );
-
-      if (cuitIsExists)
-        throw new CompanyError('Company cuit already exists on database');
-
-      const companyID = ID.new();
-      this.logger.log('Generating new Company.');
-      const company = new Company({ id: companyID });
-
-      this.logger.log('Setting CUIT.');
-      company.setCUIT(payload.cuit);
-
-      this.logger.log('Setting CreatedAt.');
-      company.setCreatedAt(CreatedAt.new());
-
-      this.logger.log('Setting Name.');
-      company.setName(payload.name);
-
-      this.logger.log('Setting Type.');
-      company.setType(payload.type);
-
-      this.logger.log('Creating and Setting Account.');
-      const account = await this.createAccountApp.execute();
-      company.setAccount(account);
-
-      this.logger.log('Saving Company.');
-      await this.repository.save(company);
+      const account = await this.createAccountAction.execute();
+      const company = await this.createCompanyAction.execute({
+        ...payload,
+        account,
+      });
       return company;
     } catch (error) {
       throw error;

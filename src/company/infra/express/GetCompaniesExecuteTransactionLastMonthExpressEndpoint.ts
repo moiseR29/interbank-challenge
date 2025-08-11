@@ -3,8 +3,8 @@ import { MemoryDB } from '@infra/db/memory';
 import { WinstonLogger } from '@infra/libraries/winston';
 import { Request, Response, NextFunction } from 'express';
 import {
-  GetCompaniesExecuteTransactionLastMonth,
-  GetCompaniesExecuteTransactionLastMonthDependencies,
+  GetCompaniesExecuteTransactionLastMonthApplication,
+  GetCompaniesExecuteTransactionLastMonthApplicationDependencies,
 } from '@company/app';
 import { CompanyMemoryRepository } from '../CompanyMemoryRepository';
 import { TransactionMemoryRepository } from '@transaction/infra';
@@ -33,16 +33,17 @@ export const GetCompaniesExecuteTransactionLastMonthExpressEndpoint = async (
 
   try {
     const db = MemoryDB.getInstance();
-    const deps: GetCompaniesExecuteTransactionLastMonthDependencies = {
-      logger,
-      companyRepository: new CompanyMemoryRepository({ logger, data: db }),
-      transactionRepository: new TransactionMemoryRepository({
+    const deps: GetCompaniesExecuteTransactionLastMonthApplicationDependencies =
+      {
         logger,
-        data: db,
-      }),
-    };
+        companyRepository: new CompanyMemoryRepository({ logger, data: db }),
+        transactionRepository: new TransactionMemoryRepository({
+          logger,
+          data: db,
+        }),
+      };
 
-    const uCase = new GetCompaniesExecuteTransactionLastMonth(deps);
+    const uCase = new GetCompaniesExecuteTransactionLastMonthApplication(deps);
     const caseResponse = await uCase.execute();
 
     const response = caseResponse.map((cr) => {

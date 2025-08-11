@@ -1,39 +1,24 @@
-import moment from 'moment-timezone';
-import { Company, CompanyRepository } from '@company/core';
-import { App, AppDependencies } from '@shared/app';
+import {
+  GetCompaniesJoinedLastMonthAction,
+  GetCompaniesJoinedLastMonthActionDependencies,
+} from '@company/core/actions';
+import { Company } from '@company/core';
 
-export interface GetCompaniesJoinedLastMonthDependencies
-  extends AppDependencies {
-  companyRepository: CompanyRepository;
-}
+export { GetCompaniesJoinedLastMonthActionDependencies as GetCompaniesJoinedLastMonthApplicationDependencies };
 
-export class GetCompaniesJoinedLastMonth extends App {
-  private repository: CompanyRepository;
+export class GetCompaniesJoinedLastMonthApplication {
+  private getCompaniesExecuteTransactionLastMonthAction: GetCompaniesJoinedLastMonthAction;
 
-  constructor(dep: GetCompaniesJoinedLastMonthDependencies) {
-    super(dep);
-    this.repository = dep.companyRepository;
+  constructor(dep: GetCompaniesJoinedLastMonthActionDependencies) {
+    this.getCompaniesExecuteTransactionLastMonthAction =
+      new GetCompaniesJoinedLastMonthAction(dep);
   }
 
   async execute(): Promise<Array<Company>> {
-    this.logger.info('Executing ... GetCampaingJoinedLastMonth');
     try {
-      this.logger.info('calculating dates');
-      const currentDayLastMonth = moment().utc().subtract(1, 'M');
-      const firstDayLastMonth = currentDayLastMonth
-        .startOf('month')
-        .format('YYYY-MM-DD');
-      const lastDayLastMonth = currentDayLastMonth
-        .endOf('month')
-        .format('YYYY-MM-DD');
-
-      this.logger.info('searching companies');
-      const companies = await this.repository.getCompaniesBetweenDates(
-        firstDayLastMonth,
-        lastDayLastMonth,
-      );
-
-      return companies;
+      const actionResult =
+        await this.getCompaniesExecuteTransactionLastMonthAction.execute();
+      return actionResult;
     } catch (error) {
       throw error;
     }

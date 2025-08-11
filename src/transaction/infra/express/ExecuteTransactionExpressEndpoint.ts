@@ -3,8 +3,9 @@ import { MemoryDB } from '@infra/db/memory';
 import { WinstonLogger } from '@infra/libraries/winston';
 import { Amount } from '@transaction/core';
 import {
-  ExecuteTransaction,
-  ExecuteTransactionDependencies,
+  ExecuteTransactionApplication,
+  ExecuteTransactionApplicationDependencies,
+  ExecuteTransactionApplicationPayload,
 } from '@transaction/app';
 import { TransactionMemoryRepository } from '../TransactionMemoryRepository';
 import { AccountMemoryRepository } from '@account/infra';
@@ -33,7 +34,15 @@ export const ExecuteTransactionExpressEndpoint = async (
   try {
     const db = MemoryDB.getInstance();
 
-    const deps: ExecuteTransactionDependencies = {
+    const payload = req.body as ExecuteTransactionExpressEndpointPayload;
+
+    const applicationPayload: ExecuteTransactionApplicationPayload = {
+      amount: new Amount(payload.amount),
+      creditAccount: new AccountNumber(payload.credit),
+      debitAccount: new AccountNumber(payload.debit),
+    };
+
+    const deps: ExecuteTransactionApplicationDependencies = {
       logger,
       transactionRepository: new TransactionMemoryRepository({
         logger,
@@ -45,15 +54,9 @@ export const ExecuteTransactionExpressEndpoint = async (
       }),
     };
 
-    const payload = req.body as ExecuteTransactionExpressEndpointPayload;
+    const uCase = new ExecuteTransactionApplication(deps);
 
-    const uCase = new ExecuteTransaction(deps);
-
-    const caseResponse = await uCase.execute({
-      amount: new Amount(payload.amount),
-      creditAccount: new AccountNumber(payload.credit),
-      debitAccount: new AccountNumber(payload.debit),
-    });
+    const caseResponse = await uCase.execute(applicationPayload);
 
     return res.status(200).send({
       amout: caseResponse.amount.value,

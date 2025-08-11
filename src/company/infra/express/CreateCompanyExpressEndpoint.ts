@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateCompany, CreateCompanyDependencies } from '@company/app';
+import {
+  CreateCompanyApplication,
+  CreateCompanyApplicationDependencies,
+  CreateCompanyApplicationPayload,
+} from '@company/app';
 
 import { AccountMemoryRepository } from '@account/infra';
 
@@ -28,24 +32,26 @@ export const CreateCompanyExpressEndpoint = async (
   const logger = new WinstonLogger('-> Create Company');
   try {
     const db = MemoryDB.getInstance();
-    const deps: CreateCompanyDependencies = {
-      logger,
-      accountRepository: new AccountMemoryRepository({ logger, data: db }),
-      companyRepository: new CompanyMemoryRepository({ logger, data: db }),
-    };
-    const uCase = new CreateCompany(deps);
 
     const body = req.body as CreateCompanyExpressEndpointPayload;
-
     if (!body.name) throw new CompanyError('name is required');
     if (!body.cuit) throw new CompanyError('cuit is required');
     if (!body.type) throw new CompanyError('type is required');
 
-    const caseResponse = await uCase.execute({
+    const payload: CreateCompanyApplicationPayload = {
       name: new Name(body.name),
       cuit: new CUIT(body.cuit),
       type: new Type(body.type),
-    });
+    };
+
+    const deps: CreateCompanyApplicationDependencies = {
+      logger,
+      accountRepository: new AccountMemoryRepository({ logger, data: db }),
+      companyRepository: new CompanyMemoryRepository({ logger, data: db }),
+    };
+    const uCase = new CreateCompanyApplication(deps);
+
+    const caseResponse = await uCase.execute(payload);
 
     return res.status(201).send({
       id: caseResponse.id.value,
