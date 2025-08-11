@@ -15,8 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "config": "^4.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.3",
     "moment-timezone": "^0.6.0",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@types/config": "^3.3.5",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.20",

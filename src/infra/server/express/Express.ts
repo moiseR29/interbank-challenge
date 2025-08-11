@@ -1,4 +1,5 @@
-import { MainError } from '@shared/core';
+import helmet from 'helmet';
+import cors from 'cors';
 import express, {
   json,
   urlencoded,
@@ -8,6 +9,7 @@ import express, {
   Application,
   Router,
 } from 'express';
+import { MainError } from '@shared/core';
 
 const handlerError = (
   error: any,
@@ -29,6 +31,8 @@ export class ExpressServer {
   }
 
   private config(router: Router) {
+    this.app.use(helmet());
+    this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
 
