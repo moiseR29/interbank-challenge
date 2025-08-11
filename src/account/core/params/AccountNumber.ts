@@ -37,14 +37,12 @@ export class AccountNumber extends StringValue {
     if (validateNumber.length != 7)
       throw new AccountError('Invalid Account Number. must contains 7 number');
 
-    // TODO: valid if has one "-"
     const checkHas_1 = this._value.match(/[-]+/g) || [];
     if (checkHas_1.length != 1)
       throw new AccountError(
         'Invalid Account Number. should be include a only -',
       );
 
-    // TODO: valid if has one "/"
     const checkHas_2 = this._value.match(/[/]+/g) || [];
     if (checkHas_2.length != 1)
       throw new AccountError(
