@@ -6,6 +6,12 @@ export enum STATUS_CODE {
   METHOD_NOT_ALLOWED = 405,
 }
 
+interface ErrorMetadata {
+  name?: string;
+  message?: string;
+  status?: STATUS_CODE;
+}
+
 export class MainError extends Error {
   private statusCode: STATUS_CODE;
 
@@ -17,14 +23,16 @@ export class MainError extends Error {
     Object.setPrototypeOf(this, MainError.prototype);
   }
 
-  static check(error: any): MainError {
+  static check(error: any, errorMetadata: ErrorMetadata = {}): MainError {
     if (error instanceof MainError) return error;
 
-    return new MainError(
-      'Generic Error',
-      error.message,
-      STATUS_CODE.BAD_REQUEST,
-    );
+    const {
+      name = 'Generic Error',
+      message = error.message,
+      status = STATUS_CODE.BAD_REQUEST,
+    } = errorMetadata;
+
+    return new MainError(name, message, status);
   }
 
   getError() {

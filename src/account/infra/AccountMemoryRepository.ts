@@ -31,45 +31,75 @@ export class AccountMemoryRepository implements AccountRepository {
   }
 
   async save(account: Account): Promise<Account> {
-    if (this.db.account.has(account.accountNumber.value)) {
-      this.logger.error('Account Already exist on database');
-      throw AccountError.repository('Account Already exist on database');
-    }
+    try {
+      if (this.db.account.has(account.accountNumber.value)) {
+        this.logger.error('Account Already exist on database');
+        throw AccountError.repository('Account Already exist on database');
+      }
 
-    this.db.account.set(account.accountNumber.value, {
-      id: account.accountNumber.value,
-      amount: account.amount.value,
-      createdAt: account.createdAt.value.format(),
-    });
-    return account;
+      this.db.account.set(account.accountNumber.value, {
+        id: account.accountNumber.value,
+        amount: account.amount.value,
+        createdAt: account.createdAt.value.format(),
+      });
+      return account;
+    } catch (error) {
+      // @ts-ignore
+      this.logger.error(error.message);
+      throw AccountError.check(error, {
+        name: 'Account Memory Repository',
+        // @ts-ignore
+        message: error.message,
+      });
+    }
   }
 
   async getByAccountNumber(
     accountNumber: AccountNumber,
   ): Promise<Account | undefined> {
-    if (!this.db.account.has(accountNumber.value)) return undefined;
+    try {
+      if (!this.db.account.has(accountNumber.value)) return undefined;
 
-    const acc = this.db.account.get(accountNumber.value)!;
+      const acc = this.db.account.get(accountNumber.value)!;
 
-    return new Account({
-      accountNumber,
-      amount: new Amount(acc.amount),
-      createdAt: CreatedAt.newFromUTC(acc.createdAt),
-    });
+      return new Account({
+        accountNumber,
+        amount: new Amount(acc.amount),
+        createdAt: CreatedAt.newFromUTC(acc.createdAt),
+      });
+    } catch (error) {
+      // @ts-ignore
+      this.logger.error(error.message);
+      throw AccountError.check(error, {
+        name: 'Account Memory Repository',
+        // @ts-ignore
+        message: error.message,
+      });
+    }
   }
 
   async updateAmount(account: Account): Promise<Account> {
-    if (!this.db.account.has(account.accountNumber.value)) {
-      this.logger.error('Account not found');
-      throw AccountError.repository('Account not found');
+    try {
+      if (!this.db.account.has(account.accountNumber.value)) {
+        this.logger.error('Account not found');
+        throw AccountError.repository('Account not found');
+      }
+
+      this.db.account.set(account.accountNumber.value, {
+        id: account.accountNumber.value,
+        amount: account.amount.value,
+        createdAt: account.createdAt.value.format(),
+      });
+
+      return account;
+    } catch (error) {
+      // @ts-ignore
+      this.logger.error(error.message);
+      throw AccountError.check(error, {
+        name: 'Account Memory Repository',
+        // @ts-ignore
+        message: error.message,
+      });
     }
-
-    this.db.account.set(account.accountNumber.value, {
-      id: account.accountNumber.value,
-      amount: account.amount.value,
-      createdAt: account.createdAt.value.format(),
-    });
-
-    return account;
   }
 }

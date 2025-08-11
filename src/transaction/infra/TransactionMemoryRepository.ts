@@ -8,6 +8,7 @@ import {
   CreditAccount,
   ExecutedAt,
   Amount,
+  TransactionError,
 } from '@transaction/core';
 import moment from 'moment-timezone';
 
@@ -34,36 +35,56 @@ export class TransactionMemoryRepository implements TransactionRepository {
   }
 
   async save(tx: Transaction): Promise<Transaction> {
-    this.db.transaction.push({
-      id: tx.id.value,
-      amount: tx.amount.value,
-      credit: tx.credit.value,
-      debit: tx.debit.value,
-      executedAt: tx.executedAt.value.format(),
-    });
-    return tx;
+    try {
+      this.db.transaction.push({
+        id: tx.id.value,
+        amount: tx.amount.value,
+        credit: tx.credit.value,
+        debit: tx.debit.value,
+        executedAt: tx.executedAt.value.format(),
+      });
+      return tx;
+    } catch (error) {
+      // @ts-ignore
+      this.logger.error(error.message);
+      throw TransactionError.check(error, {
+        name: 'Transaction Memory Repository',
+        // @ts-ignore
+        message: error.message,
+      });
+    }
   }
 
   async getBetweenDates(
     dateFrom: string,
     dateTo: string,
   ): Promise<Array<Transaction>> {
-    const transactions = this.db.transaction.filter((v) => {
-      const companyDate = moment.utc(v.executedAt);
-      const from = moment.utc(dateFrom);
-      const to = moment.utc(dateTo);
+    try {
+      const transactions = this.db.transaction.filter((v) => {
+        const companyDate = moment.utc(v.executedAt);
+        const from = moment.utc(dateFrom);
+        const to = moment.utc(dateTo);
 
-      return companyDate.isBetween(from, to);
-    });
-
-    return transactions.map((t) => {
-      return new Transaction({
-        id: new ID(t.id),
-        amount: new Amount(t.amount),
-        credit: new CreditAccount(t.credit),
-        debit: new DebitAccount(t.debit),
-        executedAt: ExecutedAt.newFromUTC(t.executedAt),
+        return companyDate.isBetween(from, to);
       });
-    });
+
+      return transactions.map((t) => {
+        return new Transaction({
+          id: new ID(t.id),
+          amount: new Amount(t.amount),
+          credit: new CreditAccount(t.credit),
+          debit: new DebitAccount(t.debit),
+          executedAt: ExecutedAt.newFromUTC(t.executedAt),
+        });
+      });
+    } catch (error) {
+      // @ts-ignore
+      this.logger.error(error.message);
+      throw TransactionError.check(error, {
+        name: 'Transaction Memory Repository',
+        // @ts-ignore
+        message: error.message,
+      });
+    }
   }
 }
