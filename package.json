@@ -8,12 +8,17 @@
     "build": "./node_modules/.bin/tsc -p tsconfig.build.json",
     "start": "yarn clean && yarn build && node ./dist/index",
     "lambda": "yarn clean && yarn build && ./node_modules/.bin/serverless offline --stage dev",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "nest:build": "./node_modules/.bin/nest build",
+    "nest:start": "./node_modules/.bin/nest start --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nestjs/common": "^11.1.6",
+    "@nestjs/core": "^11.1.6",
+    "@nestjs/platform-express": "^11.1.6",
     "config": "^4.1.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
@@ -22,11 +27,14 @@
     "lodash": "^4.17.21",
     "module-alias": "^2.2.3",
     "moment-timezone": "^0.6.0",
+    "reflect-metadata": "^0.2.2",
     "serverless-http": "^3.2.0",
     "uuid": "^11.1.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@nestjs/cli": "^11.0.10",
+    "@nestjs/schematics": "^11.0.7",
     "@types/config": "^3.3.5",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",

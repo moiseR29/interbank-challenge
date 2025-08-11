@@ -109,25 +109,13 @@ ejecutar en consola ```yarn start```
 
 ejecutar en consola ```yarn lambda```
 
+7. **BONUS: Ejecutar nest**
+
+ejecutar en consola ```yarn nest:start```
+
 ## API
 
-### Welcome
-
-**Curl**
-
-```
-curl --request GET \
-  --url http://localhost:4000/ \
-  --header 'Content-Type: application/json'
-```
-
-**Response**
-
-```
-status: 200
-
-Welcome to Interbank Challenge API
-```
+HOST: http://localhost:<<PORT>>
 
 ### Create Company
 
@@ -147,7 +135,7 @@ Welcome to Interbank Challenge API
 
 ```
 curl --request POST \
-  --url http://localhost:4000/company \
+  --url <<HOST>>/company \
   --header 'Content-Type: application/json' \
   --header 'secret: <<SECRET>>' \
   --data '{
@@ -175,7 +163,7 @@ status: 201
 
 ```
 curl --request GET \
-  --url lhttp://localhost:4000/company \
+  --url <<HOST>>/company \
   --header 'Content-Type: application/json' \
   --header 'secret: <<SECRET>>'
 ```
@@ -203,7 +191,7 @@ status: 200
 
 ```
 curl --request GET \
-  --url http://localhost:4000/company/transactions \
+  --url <<HOST>>/company/transactions \
   --header 'Content-Type: application/json' \
   --header 'secret: <<SECRET>>'
 ```
@@ -239,7 +227,7 @@ status: 200
 
 ```
 curl --request POST \
-  --url http://localhost:4000/transaction \
+  --url <<HOST>>/transaction \
   --header 'Content-Type: application/json' \
   --header 'secret: <<SECRET>>' \
   --data '{
