@@ -129,3 +129,135 @@ status: 200
 Welcome to Interbank Challenge API
 ```
 
+### Create Company
+
+**Payload**
+
+```
+{
+	"name": "<<COMPANY NAME>>",
+	"cuit": "<<COMPANY_CUIT>>",
+	"type": "<<COMPANY_TYPE>>"
+}
+```
+
+> Allow Types: 'PYME' |  'CORPORATIVE'
+
+**Curl**
+
+```
+curl --request POST \
+  --url http://localhost:4000/company \
+  --header 'Content-Type: application/json' \
+  --header 'secret: <<SECRET>>' \
+  --data '{
+	"name": "<<COMPANY NAME>>",
+	"cuit": "<<COMPANY_CUIT>>",
+	"type": "<<COMPANY_TYPE>>"
+}'
+```
+
+**Response**
+
+```
+status: 201
+
+{
+	"id": "<<UUID>>",
+	"account": "<<ACCOUNT_NUMBER>>",
+	"createdAt": "2025-08-11T03:42:07Z"
+}
+```
+
+### Get Companies Joined Last Month
+
+**Curl**
+
+```
+curl --request GET \
+  --url lhttp://localhost:4000/company \
+  --header 'Content-Type: application/json' \
+  --header 'secret: <<SECRET>>'
+```
+
+**Response**
+
+```
+status: 200
+
+[
+	{
+		"cuit": "<<COMPANY_CUIT>>",
+		"createdAt": "<<COMPANY_CREATED>>",
+		"type": "<<COMPANY_TYPE>>",
+		"name": "<<COMPANY_NAME>>"
+	},
+]
+```
+
+> Por defecto es un array vacio
+
+### Get Companies Execute Transaction Last Month
+
+**Curl**
+
+```
+curl --request GET \
+  --url http://localhost:4000/company/transactions \
+  --header 'Content-Type: application/json' \
+  --header 'secret: <<SECRET>>'
+```
+
+**Response**
+
+```
+status: 200
+
+[
+	{
+		"cuit": "<<COMPANY_CUIT>>",
+		"createdAt": "<<COMPANY_CREATED>>",
+		"type": "<<COMPANY_TYPE>>",
+		"name": "<<COMPANY_NAME>>"
+		"transactions": [
+			{
+				"amount": <<TRANSACTION_AMOUNT>>,
+				"debit": "<<TRANSACTION_ACCOUNT_DEBIT>>",
+				"credit": "<<TRANSACTION_ACCOUNT_CREDIT>>",
+				"executedAt": "<<TRANSACTION_EXECUTED_AT>>"
+			}
+		]
+	},
+]
+```
+
+> Por defecto es un array vacio
+
+### BONUS: Execute Transaction
+
+**Curl**
+
+```
+curl --request POST \
+  --url http://localhost:4000/transaction \
+  --header 'Content-Type: application/json' \
+  --header 'secret: <<SECRET>>' \
+  --data '{
+	"amount": "<<AMOUNT>>",
+  "debit": "<<DEBIT_ACCOUNT>>",
+  "credit": "<<CREDIT_ACCOUNT>>"
+}'
+```
+
+**Response**
+
+```
+status: 200
+
+{
+	"amount": "<<AMOUNT>>",
+   "debit": "<<DEBIT_ACCOUNT>>",
+   "credit": "<<CREDIT_ACCOUNT>>"
+	"executedAt": "2025-08-11T03:18:53Z"
+}
+```
